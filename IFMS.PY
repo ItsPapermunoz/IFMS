@@ -47,13 +47,13 @@ def savings_plan():
     if costs_percentage < 10:
         savings = income * .4
         savings_percentage = "40%"
-    elif costs_percentage => 10 and costs_percentage < 25:
+    elif costs_percentage >= 10 and costs_percentage < 25:
         savings = income * .3
         savings_percentage = "30%"
-    elif costs_percentage => 25 and costs_percentage < 50:
+    elif costs_percentage >= 25 and costs_percentage < 50:
         savings = income * .2
         savings_percentage = "20%"
-    elif costs_percentage => 50 and costs_percentage < 75:
+    elif costs_percentage >= 50 and costs_percentage < 75:
         savings = income * .1
         savings_percentage = "10%"
     else:
@@ -80,9 +80,10 @@ def read_file():
             deposits += 1
         print("You have saved a total of: {}\nTotal depposits made: {}".format(total_savings, deposits))
         pause()
-
+        return piggy_bank
 
 def new_deposit():
+    clear()
     try:
         deposit = int(input("Please enter the amount to deposit... "))
     except ValueError:
@@ -94,7 +95,7 @@ def new_deposit():
         piggy_bank.append(deposit)
         pickle.dump(piggy_bank, open("Piggy Bank.data", "wb"))
         print("Deposit Succesfull!")
-
+        pause()
 
 def withdrawl():
     clear()
@@ -111,7 +112,22 @@ def withdrawl():
                 new_deposit = deposit - withdrawl
                 piggy_bank.remove(deposit)
                 piggy_bank.append(new_deposit)
-                
+                pickle.dump(piggy_bank, open("Piggy Bank.data", "wb"))
+                print("Succesfull withdrawl!")
+                pause()
+                return
+        withdrawl = withdrawl * -1
+        piggy_bank.append(withdrawl)
+        pickle.dump(piggy_bank, open("Piggy Bank.data", "wb"))
+        print("Succesfull withdrawl!")
+        pause()
+        return
 
 
 # Main Code
+
+piggy_bank = read_file()
+new_deposit()
+new_deposit()
+withdrawl()
+piggy_bank = read_file()
