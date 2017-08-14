@@ -61,9 +61,57 @@ def savings_plan():
         savings_percentage = "2%"
     yearly_savings = savings * 12
     print("Your recomended savings plan is the following:")
-    pause()
     print("Monthly savings: {}\nThat's {} savings".format(savings, savings_percentage))
     print("Yearly savings: {}".format(yearly_savings))
-    
+    pause()
+
+def read_file():
+    clear()
+    try:
+        piggy_bank = pickle.load(open("Piggy Bank.data", "rb"))
+    except FileNotFoundError:
+        piggy_bank = []
+        pickle.dump(piggy_bank, open("Piggy Bank.data", "wb"))
+    finally:
+        total_savings = 0
+        deposits = 0
+        for entry in piggy_bank:
+            total_savings += entry
+            deposits += 1
+        print("You have saved a total of: {}\nTotal depposits made: {}".format(total_savings, deposits))
+        pause()
+
+
+def new_deposit():
+    try:
+        deposit = int(input("Please enter the amount to deposit... "))
+    except ValueError:
+        deposit = int(input("Please enter a valid amount... "))
+    while deposit <= 0:
+        deposit = int(input("Please enter a valid amount... "))
+    deposit_confirmation = iem.confirm()
+    if deposit_confirmation:
+        piggy_bank.append(deposit)
+        pickle.dump(piggy_bank, open("Piggy Bank.data", "wb"))
+        print("Deposit Succesfull!")
+
+
+def withdrawl():
+    clear()
+    print("THIS PROGRAM DOES NOT ENCOURAGE WITHDRAWLS FROM PIGGY BANK... Please confirm if you wish to proceed")
+    if iem.confirm():
+        clear()
+        try:
+            withdrawl = int(input("Please enter ammount to withdraw... "))
+        except ValueError:
+            print("Withdrawl ammount not valid, please try again.")
+            return
+        for deposit in piggy_bank:
+            if withdrawl < deposit:
+                new_deposit = deposit - withdrawl
+                piggy_bank.remove(deposit)
+                piggy_bank.append(new_deposit)
+                
+
 
 # Main Code
