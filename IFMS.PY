@@ -126,8 +126,6 @@ def withdrawl():
 
 # Main Code
 
-piggy_bank = read_file()
-new_deposit()
-new_deposit()
-withdrawl()
-piggy_bank = read_file()
+income = prompt_income()
+costs = prompt_costs()
+savings_plan()
